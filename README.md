@@ -14,16 +14,16 @@ This repo is meant to be your personal "local infra as code" baseline:
 
 ## What is included
 
-- `dotfiles/`: versionable shell and Git config
-- `vscode/`: user settings and extension recommendations
-- `vscode/profiles/`: importable profile presets
-- `docker/`: local services stack for backend work
-- `scripts/`: bootstrap and symlink helpers
-- `docs/`: current machine audit and setup notes
+- [`dotfiles/`](./dotfiles/): versionable shell and Git config
+- [`vscode/`](./vscode/): user settings and extension recommendations
+- [`vscode/profiles/`](./vscode/profiles/): importable profile presets
+- [`docker/`](./docker/): local services stack for backend work
+- [`scripts/`](./scripts/): bootstrap and symlink helpers
+- [`docs/`](./docs/): current machine audit and setup notes
 
 ## Quick start
 
-1. Review the files in `dotfiles/`, `vscode/`, and `docker/`.
+1. Review the files in [`dotfiles/`](./dotfiles/), [`vscode/`](./vscode/), and [`docker/`](./docker/).
 2. Copy the environment file:
 
 ```bash
@@ -53,4 +53,4 @@ The initial baseline reflects your current machine:
 - .NET SDK 10.0.103
 - VS Code with Python, C#, Copilot, ChatGPT, and Vitest-related tooling
 
-See `docs/current-environment-audit.md` for the captured inventory and follow-up recommendations.
+See [Current Environment Audit](./docs/current-environment-audit.md) for the captured inventory and follow-up recommendations.
