@@ -42,6 +42,36 @@ bash scripts/link-dotfiles.sh
 docker compose --env-file docker/.env -f docker/docker-compose.yml up -d
 ```
 
+## Docker In WSL2
+
+If WSL shows `The command 'docker' could not be found in this WSL 2 distro`, enable Docker Desktop integration for your distro in Windows.
+
+1. Install or open Docker Desktop on Windows.
+2. In Docker Desktop, open `Settings`.
+3. In `General`, make sure `Use WSL 2 based engine` is enabled.
+4. In `Resources` > `WSL Integration`, enable integration for your Ubuntu distro.
+5. Click `Apply & Restart`.
+6. Back in WSL, verify Docker is available:
+
+```bash
+docker version
+docker context ls
+```
+
+If your distro is not the default WSL distro, Docker says integration is enabled by default only for the default distro. You can check or change that from Windows PowerShell:
+
+```powershell
+wsl --list --verbose
+wsl --set-default Ubuntu
+```
+
+If Docker Desktop is in Windows container mode, switch it back to Linux containers before retrying.
+
+References:
+
+- [Docker Desktop WSL 2 backend](https://docs.docker.com/docker-for-windows/wsl-tech-preview/)
+- [Docker Desktop settings on Windows](https://docs.docker.com/desktop/settings-and-maintenance/settings/)
+
 ## Current direction
 
 The initial baseline reflects your current machine:

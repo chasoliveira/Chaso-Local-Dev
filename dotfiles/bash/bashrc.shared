@@ -20,5 +20,7 @@ alias la='ls -A'
 alias l='ls -CF'
 alias dc='docker compose'
 alias gs='git status --short --branch'
+gac() {
+  git add . && git commit -m "$*"
+}
 alias py='python3'
-
