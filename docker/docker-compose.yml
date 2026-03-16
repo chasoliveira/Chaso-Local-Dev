@@ -55,7 +55,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4:9
     container_name: local-pgadmin
-    profiles: ["tools"]
+    profiles: ["tools", "pgadmin"]
     restart: unless-stopped
     depends_on:
       postgres:
@@ -101,9 +101,75 @@ services:
     volumes:
       - azurite_data:/data
 
+  openbao:
+    image: openbao/openbao:2.2.0
+    container_name: local-openbao
+    profiles: ["secrets", "openbao"]
+    restart: unless-stopped
+    command:
+      [
+        "server",
+        "-dev",
+        "-dev-root-token-id=${OPENBAO_DEV_ROOT_TOKEN}",
+        "-dev-listen-address=0.0.0.0:8200",
+      ]
+    cap_add:
+      - IPC_LOCK
+    ports:
+      - "${OPENBAO_PORT}:8200"
+
+  loki:
+    image: grafana/loki:3.4.2
+    container_name: local-loki
+    profiles: ["observability", "loki"]
+    restart: unless-stopped
+    command: ["-config.file=/etc/loki/local-config.yaml"]
+    ports:
+      - "${LOKI_PORT}:3100"
+    volumes:
+      - ./loki/config.yaml:/etc/loki/local-config.yaml:ro
+      - loki_data:/loki
+
+  grafana:
+    image: grafana/grafana:11.6.0
+    container_name: local-grafana
+    profiles: ["observability", "grafana"]
+    restart: unless-stopped
+    depends_on:
+      - loki
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+    ports:
+      - "${GRAFANA_PORT}:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+
+  alloy:
+    image: grafana/alloy:v1.8.3
+    container_name: local-alloy
+    profiles: ["observability", "alloy"]
+    restart: unless-stopped
+    depends_on:
+      - loki
+    command:
+      [
+        "run",
+        "/etc/alloy/config.alloy",
+        "--server.http.listen-addr=0.0.0.0:12345",
+      ]
+    ports:
+      - "${ALLOY_PORT}:12345"
+    volumes:
+      - ./alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - /var/log:/var/log:ro
+
 volumes:
   postgres_data:
   redis_data:
   pgadmin_data:
   rabbitmq_data:
   azurite_data:
+  loki_data:
+  grafana_data:
