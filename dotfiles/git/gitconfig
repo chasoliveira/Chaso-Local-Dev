@@ -1,0 +1,16 @@
+[user]
+	name = Charles Oliveira
+	email = chasoliveira@outlook.com
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = false
+
+[fetch]
+	prune = true
+
+[core]
+	editor = code --wait
+

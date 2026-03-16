@@ -1,0 +1,21 @@
+{
+  "name": "Backend",
+  "settings": {
+    "git.autofetch": true,
+    "security.workspace.trust.untrustedFiles": "open",
+    "terminal.integrated.fontFamily": "FiraCode Nerd Font",
+    "terminal.integrated.fontSize": 12,
+    "terminal.integrated.fontWeight": "normal",
+    "docker.extension.enableComposeLanguageServer": false
+  },
+  "extensions": [
+    "github.copilot-chat",
+    "ms-dotnettools.csdevkit",
+    "ms-dotnettools.csharp",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "openai.chatgpt",
+    "vitest.explorer"
+  ]
+}
+

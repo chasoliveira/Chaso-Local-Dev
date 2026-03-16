@@ -1,0 +1,22 @@
+{
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "docker.extension.enableComposeLanguageServer": false,
+  "git.autofetch": true,
+  "http.proxyStrictSSL": false,
+  "redhat.telemetry.enabled": false,
+  "security.workspace.trust.untrustedFiles": "open",
+  "terminal.external.windowsExec": "C:\\Users\\chaso\\AppData\\Local\\Microsoft\\WindowsApps\\ubuntu2204.exe",
+  "terminal.integrated.fontFamily": "FiraCode Nerd Font",
+  "terminal.integrated.fontSize": 12,
+  "terminal.integrated.fontWeight": "normal",
+  "vsicons.dontShowNewVersionMessage": true
+}
+

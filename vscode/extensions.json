@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "github.copilot-chat",
+    "ms-dotnettools.csdevkit",
+    "ms-dotnettools.csharp",
+    "ms-python.debugpy",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.vscode-python-envs",
+    "openai.chatgpt",
+    "vitest.explorer"
+  ]
+}
+
