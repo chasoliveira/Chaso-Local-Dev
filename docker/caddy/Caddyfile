@@ -1,0 +1,57 @@
+{
+	auto_https off
+	admin off
+	http_port {$CADDY_HTTP_PORT}
+}
+
+# Core local stack routes. Optional services only respond when their container is running.
+keycloak.{$LOCAL_BASE_DOMAIN} {
+	reverse_proxy keycloak:8080
+}
+
+pgadmin.{$LOCAL_BASE_DOMAIN} {
+	reverse_proxy pgadmin:80
+}
+
+mailpit.{$LOCAL_BASE_DOMAIN} {
+	reverse_proxy mailpit:8025
+}
+
+portainer.{$LOCAL_BASE_DOMAIN} {
+	reverse_proxy portainer:9000
+}
+
+rabbitmq.{$LOCAL_BASE_DOMAIN} {
+	reverse_proxy rabbitmq:15672
+}
+
+azurite-blob.{$LOCAL_BASE_DOMAIN} {
+	reverse_proxy azurite:10000
+}
+
+azurite-queue.{$LOCAL_BASE_DOMAIN} {
+	reverse_proxy azurite:10001
+}
+
+azurite-table.{$LOCAL_BASE_DOMAIN} {
+	reverse_proxy azurite:10002
+}
+
+openbao.{$LOCAL_BASE_DOMAIN} {
+	reverse_proxy openbao:8200
+}
+
+loki.{$LOCAL_BASE_DOMAIN} {
+	reverse_proxy loki:3100
+}
+
+grafana.{$LOCAL_BASE_DOMAIN} {
+	reverse_proxy grafana:3000
+}
+
+alloy.{$LOCAL_BASE_DOMAIN} {
+	reverse_proxy alloy:12345
+}
+
+# Extra routes for other stacks can be added as separate files in docker/caddy/sites/.
+import /etc/caddy/sites/*.caddy
