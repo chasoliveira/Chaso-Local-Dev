@@ -13,6 +13,7 @@ The default startup path is intentionally small.
 
 - pgAdmin
 - Mailpit
+- Portainer
 - RabbitMQ
 - Azurite
 - OpenBao
@@ -27,6 +28,7 @@ The default startup path is intentionally small.
 - Keycloak: local identity provider for OAuth2/OpenID Connect flows, using the main Postgres instance
 - pgAdmin: quick DB inspection without extra host installs
 - Mailpit: safe SMTP sink for local email testing
+- Portainer: lightweight local Docker UI for inspecting containers, volumes, networks, and stacks
 - RabbitMQ: common broker for async workflows
 - Azurite: useful when .NET or Node services use Azure storage locally
 - OpenBao: local secrets and token workflows without depending on Vault Cloud
@@ -37,6 +39,7 @@ The default startup path is intentionally small.
 - Keycloak: `http://localhost:8080`
 - pgAdmin: `http://localhost:5050`
 - Mailpit UI: `http://localhost:8025`
+- Portainer: `http://localhost:9000`
 - RabbitMQ UI: `http://localhost:15672`
 - OpenBao: `http://localhost:8200`
 - Loki API: `http://localhost:3100`
@@ -61,6 +64,7 @@ That starts only the core stack:
 ```bash
 docker compose --env-file docker/.env -f docker/docker-compose.yml --profile tools up -d
 docker compose --env-file docker/.env -f docker/docker-compose.yml --profile pgadmin up -d
+docker compose --env-file docker/.env -f docker/docker-compose.yml --profile portainer up -d
 docker compose --env-file docker/.env -f docker/docker-compose.yml --profile messaging up -d
 docker compose --env-file docker/.env -f docker/docker-compose.yml --profile azure up -d
 docker compose --env-file docker/.env -f docker/docker-compose.yml --profile secrets up -d
@@ -69,8 +73,9 @@ docker compose --env-file docker/.env -f docker/docker-compose.yml --profile obs
 
 Available profiles:
 
-- `tools`: pgAdmin and Mailpit
+- `tools`: pgAdmin, Mailpit, and Portainer
 - `pgadmin`: pgAdmin only
+- `portainer`: Portainer only
 - `messaging`: RabbitMQ
 - `azure`: Azurite
 - `secrets`: OpenBao

@@ -77,6 +77,17 @@ services:
       - "${MAILPIT_SMTP_PORT}:1025"
       - "${MAILPIT_UI_PORT}:8025"
 
+  portainer:
+    image: portainer/portainer-ce:2.27.8
+    container_name: local-portainer
+    profiles: ["tools", "portainer"]
+    restart: unless-stopped
+    ports:
+      - "${PORTAINER_PORT}:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
   rabbitmq:
     image: rabbitmq:4-management-alpine
     container_name: local-rabbitmq
@@ -169,6 +180,7 @@ volumes:
   postgres_data:
   redis_data:
   pgadmin_data:
+  portainer_data:
   rabbitmq_data:
   azurite_data:
   loki_data:
