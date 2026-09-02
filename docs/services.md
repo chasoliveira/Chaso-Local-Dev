@@ -27,7 +27,7 @@ The default startup path is intentionally small.
 - Postgres: default relational database for app development
 - Redis: cache, queue, and distributed lock scenarios
 - Keycloak: local identity provider for OAuth2/OpenID Connect flows, using the main Postgres instance
-- Caddy: shared local reverse proxy for stable `*.localhost` service names
+- Caddy: shared local reverse proxy for stable subdomain-based local service names
 - pgAdmin: quick DB inspection without extra host installs
 - Mailpit: safe SMTP sink for local email testing
 - Portainer: lightweight local Docker UI for inspecting containers, volumes, networks, and stacks
@@ -38,22 +38,22 @@ The default startup path is intentionally small.
 
 ## Friendly local URLs
 
-When the `proxy` profile is running, these hostnames are available through Caddy:
+When the `proxy` profile is running and your local DNS resolves `*.local.test` to `127.0.0.1`, these hostnames are available through Caddy:
 
-- Keycloak: `http://keycloak.localhost`
-- pgAdmin: `http://pgadmin.localhost`
-- Mailpit UI: `http://mailpit.localhost`
-- Portainer: `http://portainer.localhost`
-- RabbitMQ UI: `http://rabbitmq.localhost`
-- Azurite Blob: `http://azurite-blob.localhost`
-- Azurite Queue: `http://azurite-queue.localhost`
-- Azurite Table: `http://azurite-table.localhost`
-- OpenBao: `http://openbao.localhost`
-- Loki API: `http://loki.localhost`
-- Grafana: `http://grafana.localhost`
-- Alloy UI: `http://alloy.localhost`
+- Keycloak: `http://keycloak.local.test`
+- pgAdmin: `http://pgadmin.local.test`
+- Mailpit UI: `http://mailpit.local.test`
+- Portainer: `http://portainer.local.test`
+- RabbitMQ UI: `http://rabbitmq.local.test`
+- Azurite Blob: `http://azurite-blob.local.test`
+- Azurite Queue: `http://azurite-queue.local.test`
+- Azurite Table: `http://azurite-table.local.test`
+- OpenBao: `http://openbao.local.test`
+- Loki API: `http://loki.local.test`
+- Grafana: `http://grafana.local.test`
+- Alloy UI: `http://alloy.local.test`
 
-The default base domain comes from `LOCAL_BASE_DOMAIN` and is set to `localhost`.
+The default base domain comes from `LOCAL_BASE_DOMAIN` and is set to `local.test`.
 Postgres, Redis, and other raw TCP protocols still use their direct ports because this Caddy setup proxies HTTP services only.
 
 ## Direct URLs
@@ -116,6 +116,76 @@ Grafana is provisioned with Loki as a datasource automatically.
 OpenBao runs in dev mode with the root token from `OPENBAO_DEV_ROOT_TOKEN`.
 Caddy serves friendly local hostnames on `CADDY_HTTP_PORT`, which defaults to `80`.
 
+## Windows And WSL DNS Setup
+
+To make `*.local.test` resolve in both Windows and WSL:
+
+1. Start the proxy:
+
+```bash
+docker compose --env-file docker/.env -f docker/docker-compose.yml --profile proxy up -d
+```
+
+2. Add Windows hosts entries that point your local names to `127.0.0.1`.
+3. Add matching WSL hosts entries that point the same names to `127.0.0.1`.
+
+Windows hosts file:
+
+```text
+C:\Windows\System32\drivers\etc\hosts
+```
+
+Example entries:
+
+```text
+127.0.0.1 keycloak.local.test
+127.0.0.1 pgadmin.local.test
+127.0.0.1 mailpit.local.test
+127.0.0.1 portainer.local.test
+127.0.0.1 rabbitmq.local.test
+127.0.0.1 azurite-blob.local.test
+127.0.0.1 azurite-queue.local.test
+127.0.0.1 azurite-table.local.test
+127.0.0.1 openbao.local.test
+127.0.0.1 loki.local.test
+127.0.0.1 grafana.local.test
+127.0.0.1 alloy.local.test
+```
+
+WSL hosts file:
+
+```text
+/etc/hosts
+```
+
+Example command:
+
+```bash
+cat <<'EOF' | sudo tee -a /etc/hosts
+127.0.0.1 keycloak.local.test
+127.0.0.1 pgadmin.local.test
+127.0.0.1 mailpit.local.test
+127.0.0.1 portainer.local.test
+127.0.0.1 rabbitmq.local.test
+127.0.0.1 azurite-blob.local.test
+127.0.0.1 azurite-queue.local.test
+127.0.0.1 azurite-table.local.test
+127.0.0.1 openbao.local.test
+127.0.0.1 loki.local.test
+127.0.0.1 grafana.local.test
+127.0.0.1 alloy.local.test
+EOF
+```
+
+Then test:
+
+```bash
+getent hosts pgadmin.local.test
+curl -I http://pgadmin.local.test
+```
+
+If you later want a true wildcard resolver instead of hosts entries, run that resolver on the Windows host rather than in Docker. On Docker Desktop with WSL, host port `53` is commonly already occupied, which prevents a containerized DNS server from binding cleanly.
+
 On first boot, Postgres automatically creates the `keycloak` database from `docker/postgres-init/01-create-keycloak-db.sql`.
 If the Postgres volume already exists, that init script will not run again, so create the database manually or recreate the volume.
 
@@ -145,7 +215,7 @@ networks:
 Example site file:
 
 ```caddyfile
-api.localhost {
+api.local.test {
 	reverse_proxy my-api:8080
 }
 ```

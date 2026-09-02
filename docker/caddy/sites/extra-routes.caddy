@@ -1,0 +1,6 @@
+# Add extra local routes for other stacks in this directory.
+# Example:
+#
+# api.localhost {
+# 	reverse_proxy my-api:8080
+# }

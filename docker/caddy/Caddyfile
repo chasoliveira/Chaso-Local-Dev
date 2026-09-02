@@ -1,7 +1,6 @@
 {
 	auto_https off
 	admin off
-	http_port {$CADDY_HTTP_PORT}
 }
 
 # Core local stack routes. Optional services only respond when their container is running.
