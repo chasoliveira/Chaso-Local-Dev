@@ -113,8 +113,21 @@ Available profiles:
 - `alloy`: Alloy only
 
 Grafana is provisioned with Loki as a datasource automatically.
-OpenBao runs in dev mode with the root token from `OPENBAO_DEV_ROOT_TOKEN`.
+OpenBao uses file storage in the `openbao_data` Docker volume. It keeps transit keys, policies, and auth methods across normal container restarts and recreations.
 Caddy serves friendly local hostnames on `CADDY_HTTP_PORT`, which defaults to `80`.
+
+## OpenBao First Boot
+
+OpenBao does not run in dev mode. On the first boot, initialize and unseal it once:
+
+```bash
+export BAO_ADDR=http://localhost:8200
+bao operator init -key-shares=1 -key-threshold=1
+bao operator unseal
+bao login
+```
+
+Store the generated unseal key and initial root token somewhere local and private. After that, configure transit, policies, and AppRole as usual. The data is retained in the `openbao_data` volume unless that volume is deleted.
 
 ## Windows And WSL DNS Setup
 

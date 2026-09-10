@@ -132,19 +132,14 @@ services:
     container_name: local-openbao
     profiles: ["secrets", "openbao"]
     restart: unless-stopped
-    command:
-      [
-        "server",
-        "-dev",
-        "-dev-root-token-id=${OPENBAO_DEV_ROOT_TOKEN}",
-        "-dev-listen-address=0.0.0.0:8200",
-      ]
+    command: ["server", "-config=/etc/openbao/config.hcl"]
     cap_add:
       - IPC_LOCK
     ports:
       - "${OPENBAO_PORT}:8200"
     volumes:
-      - redis_data:/data
+      - ./openbao/config.hcl:/etc/openbao/config.hcl:ro
+      - openbao_data:/openbao/file
 
   loki:
     image: grafana/loki:3.4.2
