@@ -70,6 +70,16 @@ Direct host ports still work and are useful for non-HTTP clients or when Caddy i
 - Grafana: `http://localhost:3000`
 - Alloy UI: `http://localhost:12345`
 
+## Mailpit SMTP
+
+Mailpit runs on the same Docker network as Keycloak. Configure Keycloak SMTP with:
+
+- Host: `mailpit`
+- Port: `1025`
+- Authentication: disabled for local testing
+
+From the host machine, the SMTP port remains available at `localhost:1025` when the Mailpit service is running.
+
 ## Start
 
 ```bash
@@ -87,6 +97,7 @@ That starts only the core stack:
 
 ```bash
 docker compose --env-file docker/.env -f docker/docker-compose.yml --profile proxy up -d
+docker compose --env-file docker/.env -f docker/docker-compose.yml --profile mailpit up -d
 docker compose --env-file docker/.env -f docker/docker-compose.yml --profile tools up -d
 docker compose --env-file docker/.env -f docker/docker-compose.yml --profile pgadmin up -d
 docker compose --env-file docker/.env -f docker/docker-compose.yml --profile portainer up -d
@@ -101,6 +112,7 @@ Available profiles:
 - `proxy`: Caddy
 - `caddy`: Caddy only
 - `tools`: pgAdmin, Mailpit, and Portainer
+- `mailpit`: Mailpit only
 - `pgadmin`: pgAdmin only
 - `portainer`: Portainer only
 - `messaging`: RabbitMQ
