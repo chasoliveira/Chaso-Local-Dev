@@ -11,6 +11,7 @@ This repo is meant to be your personal "local infra as code" baseline:
 - Docker Compose services for common local dependencies
 - a single Postgres instance shared by app workloads and Keycloak
 - optional profiles for extra local tooling so the default stack stays lean
+- project-local helpers such as Structurizr Lite for architecture diagrams
 
 ## What is included
 
@@ -18,7 +19,7 @@ This repo is meant to be your personal "local infra as code" baseline:
 - [`vscode/`](./vscode/): user settings and extension recommendations
 - [`vscode/profiles/`](./vscode/profiles/): importable profile presets
 - [`docker/`](./docker/): local services stack for backend work
-- [`scripts/`](./scripts/): bootstrap and symlink helpers
+- [`scripts/`](./scripts/): bootstrap, symlink, and project-local tooling helpers
 - [`docs/`](./docs/): current machine audit and setup notes
 
 ## Quick start
@@ -41,6 +42,14 @@ bash scripts/link-dotfiles.sh
 ```bash
 docker compose --env-file docker/.env -f docker/docker-compose.yml up -d
 ```
+
+For a project containing a Structurizr `workspace.dsl`, start Structurizr Lite from that project directory with:
+
+```bash
+bash /path/to/chaso-local-dev/scripts/structurizr-lite.sh
+```
+
+See [Local Services](./docs/services.md) for optional services and helper usage.
 
 ## Docker In WSL2
 
