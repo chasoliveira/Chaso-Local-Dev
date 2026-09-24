@@ -21,6 +21,7 @@ The default startup path is intentionally small.
 - Loki
 - Grafana
 - Alloy
+- Structurizr Lite (project-local helper)
 
 ## Why these
 
@@ -35,6 +36,41 @@ The default startup path is intentionally small.
 - Azurite: useful when .NET or Node services use Azure storage locally
 - OpenBao: local secrets and token workflows without depending on Vault Cloud
 - Loki + Grafana + Alloy: lightweight local observability stack for logs and dashboards
+- Structurizr Lite: browser-based C4/architecture diagram rendering from a project-local `workspace.dsl`
+
+Structurizr Lite is intentionally exposed through a helper script instead of the shared Compose stack. Its workspace belongs to the project you are currently working in, so the helper mounts that project's directory into the container rather than a fixed directory from this repository.
+
+## Structurizr Lite
+
+From any project directory containing `workspace.dsl`:
+
+```bash
+bash /path/to/chaso-local-dev/scripts/structurizr-lite.sh
+```
+
+You can also pass the project directory explicitly:
+
+```bash
+bash /path/to/chaso-local-dev/scripts/structurizr-lite.sh /path/to/project
+```
+
+The helper:
+
+- verifies Docker is available
+- verifies the workspace file exists
+- mounts the selected project directory at `/usr/local/structurizr`
+- removes the container automatically when it exits
+- publishes Structurizr Lite at `http://localhost:8081`
+
+Port `8081` is used by default because the core local stack already uses `8080` for Keycloak. Override it when needed:
+
+```bash
+STRUCTURIZR_PORT=8080 bash /path/to/chaso-local-dev/scripts/structurizr-lite.sh
+```
+
+Structurizr Lite expects the file to be named `workspace.dsl` in the selected project directory.
+
+The image can be overridden with `STRUCTURIZR_IMAGE`; by default the helper uses `structurizr/lite`.
 
 ## Friendly local URLs
 
