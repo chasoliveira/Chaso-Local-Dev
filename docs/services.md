@@ -68,13 +68,9 @@ Port `8081` is used by default because the core local stack already uses `8080` 
 STRUCTURIZR_PORT=8080 bash /path/to/chaso-local-dev/scripts/structurizr-lite.sh
 ```
 
-The default workspace filename is `workspace.dsl`. To use another filename:
+Structurizr Lite expects the file to be named `workspace.dsl` in the selected project directory.
 
-```bash
-STRUCTURIZR_WORKSPACE_FILE=architecture.dsl bash /path/to/chaso-local-dev/scripts/structurizr-lite.sh
-```
-
-The image can also be overridden with `STRUCTURIZR_IMAGE`; by default the helper uses `structurizr/lite`.
+The image can be overridden with `STRUCTURIZR_IMAGE`; by default the helper uses `structurizr/lite`.
 
 ## Friendly local URLs
 
